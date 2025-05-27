@@ -1,0 +1,2 @@
+import 'preline';
+import 'flowbite';
