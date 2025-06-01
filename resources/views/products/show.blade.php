@@ -1,180 +1,117 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container p-8">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                        {{ $product->name }}
-                    </h2>
-                </div>
-                <div class="card-body">
-                    <img src="{{ $product->imageUrl }}" alt="{{ $product->name }}" class="img-fluid mb-3">
-                    <h4>Description:</h4>
-                    <p>{{ $product->long_description }}</p>
+<div class="min-h-screen bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 py-12">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden p-8">
 
-                    <br>
+            {{-- Imagen del producto --}}
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-1/2">
+                    <img src="{{ $product->imageUrl }}" alt="{{ $product->name }}" class="w-full h-auto rounded-lg shadow">
+                </div>
+
+                {{-- Información del producto --}}
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">{{ $product->name }}</h2>
+                    <p class="text-gray-700 mb-4">{{ $product->long_description }}</p>
+
                     @if($product->isFree())
-                        <p><strong>Price:</strong> Free</p>
-                        <a href="{{ route('download.generate-link', $product->id) }}" class="btn btn-success mt-2">Download Now</a>
+                        <p class="text-lg font-semibold text-green-600">Price: Free</p>
+                        <a href="{{ route('download.generate-link', $product->id) }}" class="mt-4 inline-block bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Download Now</a>
+                    
                     @elseif($product->isDonationBased())
-                        <form action="{{ route('cart.add', $product) }}" method="POST" class="d-inline">
+                        <form action="{{ route('cart.add', $product) }}" method="POST" class="mt-4 space-y-2">
                             @csrf
-                            <div class="form-group">
-                                <label for="donation_amount">Support this product (Suggested: ${{ number_format($product->suggested_price, 2) }})</label>
-                                <input type="number" 
-                                       name="price" 
-                                       id="donation_amount" 
-                                       class="form-control" 
-                                       value="{{ $product->suggested_price }}"
-                                       min="{{ $product->minimum_price }}"
-                                       step="0.01">
-                            </div>
-                            <button type="submit" class="btn btn-success mt-2">Support & Download</button>
+                            <label class="block font-medium">Support this product (Suggested: ${{ number_format($product->suggested_price, 2) }})</label>
+                            <input type="number" name="price" min="{{ $product->minimum_price }}" value="{{ $product->suggested_price }}" step="0.01" class="w-full p-2 border rounded-lg">
+                            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Support & Download</button>
                         </form>
-                        @if($product->minimum_price <= 0)
-                            <a href="{{ route('download.generate-link', $product->id) }}" class="btn btn-link">Download without donating</a>
-                        @endif
-                    @else
-                        <p><strong>Price:</strong> ${{ number_format($product->price, 2) }}</p>
-                        @if($product->inventory_count > 0)
-                            <form action="{{ route('cart.add', $product) }}" method="POST" class="d-inline">
-                                @csrf
-                                <div class="flex items-center gap-2 mb-4">
-                                    <label for="quantity" class="text-sm font-medium">Quantity:</label>
-                                    <input type="number" 
-                                           name="quantity" 
-                                           id="quantity" 
-                                           class="w-20 rounded border-gray-300" 
-                                           value="1" 
-                                           min="1" 
-                                           max="{{ $product->inventory_count }}">
-                                </div>
-                                <button type="submit" class="btn btn-success mt-2">Add to Cart</button>
-                            </form>
-                        @endif
-                    @endif
-                    <p><strong>Category:</strong> {{ $product->category->name ?? "" }}</p>
-                    <p><strong>Inventory Count:</strong> {{ $product->inventory_count }}</p>
-                    @if($product->inventory_count <= 5 && $product->inventory_count > 0)
-                        <p class="text-warning"><strong>¡Quedan pocos en stock!</strong></p>
-                    @endif
-                    @if($product->inventory_count > 0)
-                        <p class="text-success"><strong>In Stock</strong></p>
-                    @else
-                        <p class="text-danger"><strong>Out of Stock</strong></p>
-                    @endif
-                    @auth
-                        @if(auth()->user()->wishlist()->where('product_id', $product->id)->exists())
-                            <form action="{{ route('wishlist.remove', $product) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Remove from Wishlist</button>
-                            </form>
-                        @else
-                            <form action="{{ route('wishlist.add', $product) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-primary">Add to Wishlist</button>
-                            </form>
-                        @endif
-                    @endauth
-                    {{-- <form action="{{ route('products.addToCompare', $product) }}" method="POST" class="d-inline">
-                        @csrf
-                        <button type="submit" class="btn btn-primary mt-2">Add to Compare</button>
-                    </form> --}}
-                </div>
-            </div>
-            <a href="{{ route('products.index') }}" class="btn btn-primary mt-3">Back to Products</a>
 
-            @if(isset($recommendations) && count($recommendations) > 0)
-                <div class="card mt-4">
-                    <div class="card-header">Recommended Products</div>
-                    <div class="card-body">
-                        <div class="row">
-                            @foreach($recommendations as $recommendedProduct)
-                                <div class="col-md-4 mb-3">
-                                    <div class="card">
-                                        <img src="/images/placeholder.png" alt="{{ $recommendedProduct->name }}" class="card-img-top">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ $recommendedProduct->name }}</h5>
-                                            <p class="card-text">${{ number_format($recommendedProduct->price, 2) }}</p>
-                                            <a href="{{ route('products.show', $recommendedProduct->id) }}" class="btn btn-sm btn-primary">View Product</a>
-                                            @if($recommendedProduct->inventory_count == 0)
-                                                <p class="text-danger mt-2">Out of Stock</p>
-                                            @else
-                                                <p class="text-success mt-2">In Stock: {{ $recommendedProduct->inventory_count }}</p>
-                                            @endif
-                                        </div>
-                                    </div>
+                        @if($product->minimum_price <= 0)
+                            <a href="{{ route('download.generate-link', $product->id) }}" class="block mt-2 text-blue-600 hover:underline">Download without donating</a>
+                        @endif
+
+                    @else
+                        <p class="text-xl font-bold text-gray-800 mb-2">Price: ${{ number_format($product->price, 2) }}</p>
+                        
+                        @if($product->inventory_count > 0)
+                            <form action="{{ route('cart.add', $product) }}" method="POST" class="space-y-3">
+                                @csrf
+                                <div class="flex items-center space-x-2">
+                                    <label for="quantity" class="font-medium">Quantity:</label>
+                                    <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $product->inventory_count }}" class="w-24 p-1 border rounded">
                                 </div>
-                            @endforeach
-                        </div>
+                                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Add to Cart</button>
+                            
+
+                            </form>
+                        @endif
+                    @endif
+
+                    {{-- Estado del stock --}}
+                    <div class="mt-4">
+                        @if($product->inventory_count > 0)
+                            <p class="text-green-600 font-semibold">In Stock ({{ $product->inventory_count }})</p>
+                        @else
+                            <p class="text-red-600 font-semibold">Out of Stock</p>
+                        @endif
+
+                        @if($product->inventory_count <= 5 && $product->inventory_count > 0)
+                            <p class="text-yellow-500 font-medium">¡Quedan pocos en stock!</p>
+                        @endif
+                    </div>
+
+                    {{-- Categoría --}}
+                    <p class="mt-4 text-gray-600"><strong>Category:</strong> {{ $product->category->name ?? 'N/A' }}</p>
+
+                    {{-- Wishlist --}}
+                     <div class="mt-4">
+                        @livewire('wishlist-toggle', ['product' => $product])
                     </div>
                 </div>
+            </div>
+
+            {{-- Logs de inventario --}}
+            @isset($product->inventoryLogs)
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-3">Inventory Logs</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border rounded">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Date</th>
+                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Change</th>
+                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($product->inventoryLogs as $log)
+                                    <tr class="border-t">
+                                        <td class="px-4 py-2">{{ $log->created_at->format('Y-m-d H:i:s') }}</td>
+                                        <td class="px-4 py-2">{{ $log->quantity_change }}</td>
+                                        <td class="px-4 py-2">{{ $log->reason }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endisset
+
+            {{-- Botón de descarga si el usuario compró --}}
+            @if(
+                auth()->check() &&
+                $product->downloadable &&
+                $product->downloadable->count() > 0 &&
+                auth()->user()->hasPurchased($product)
+            )
+                <a href="{{ route('download.generate-link', $product->id) }}" class="mt-6 inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Download</a>
             @endif
+
         </div>
     </div>
 </div>
-
-@if($product->downloadable->count() > 0 && auth()->user() && auth()->user()->hasPurchased($product))
-@if(isset($product->downloadable) && $product->downloadable->count() > 0 && auth()->user() && auth()->user()->hasPurchased($product))
-    <a href="{{ route('download.generate-link', $product->id) }}" class="btn btn-success mt-3">Download</a>
-@endif
-
-@isset($product->inventoryLogs)
-<div class="card mt-4">
-    <div class="card-header">Inventory Logs</div>
-    <div class="card-body">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Quantity Change</th>
-                    <th>Reason</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($product->inventoryLogs as $log)
-                    <tr>
-                        <td>{{ $log->created_at->format('Y-m-d H:i:s') }}</td>
-                        <td>{{ $log->quantity_change }}</td>
-                        <td>{{ $log->reason }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
-@endisset
-
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org/",
-    "@type": "Product",
-    "name": "{{ $product->name }}",
-    "description": "{{ $product->description }}",
-    "image": "{{ asset('/images/placeholder.png') }}",
-    "sku": "{{ $product->id }}",
-    "mpn": "{{ $product->id }}",
-    "brand": {
-        "@type": "Brand",
-        "name": "{{ config('app.name') }}"
-    },
-    "offers": {
-        "@type": "Offer",
-        "url": "{{ route('products.show', $product->id) }}",
-        "priceCurrency": "USD",
-        "price": "{{ $product->price }}",
-        "availability": "{{ $product->inventory_count > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock' }}",
-        "seller": {
-            "@type": "Organization",
-            "name": "{{ config('app.name') }}"
-        }
-    }
-}
-</script>
 @endsection
 
 @section('meta')

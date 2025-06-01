@@ -14,8 +14,8 @@ class ProductImage extends Model
         'image'
     ];
 
-    public function getUrlAttribute(): string
-    {
-        return asset(Storage::url($this->attributes['image']));
-    }
+public function getUrlAttribute()
+{
+    return asset('storage/products/' . $this->filename); // o lo que corresponda
+}
 }

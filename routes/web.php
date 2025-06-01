@@ -19,7 +19,9 @@ use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\CartController; // New controller for cart
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController; // New controller for cart
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,18 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Product routes
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+
+Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/wishlist/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::delete('/wishlist/remove/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    Route::post('/wishlist/share', [WishlistController::class, 'share'])->name('wishlist.share');
+});
+
+Route::get('/wishlist/shared/{shareToken}', [WishlistController::class, 'sharedWishlist'])->name('wishlist.shared');
+
+
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
@@ -108,16 +122,26 @@ Route::get('/products/compare', [ProductController::class, 'compare'])->name('pr
 Route::delete('/product/{category}/{product}/compare', [ProductController::class, 'removeFromCompare'])->name('products.removeFromCompare');
 Route::delete('/products/compare/clear', [ProductController::class, 'clearCompare'])->name('products.clearCompare');
 
+// Rutas de recuperación de contraseña
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+
 Route::middleware('auth')->group(function () {
     Route::get('/download/{category}/{product}', [DownloadController::class, 'generateSecureLink'])->name('download.generate-link');
     Route::get('/download/file/{category}/{product}', [DownloadController::class, 'serveFile'])->name('download.serve-file');
 });
+Route::middleware(['auth', 'can:admin'])->group(function () {
+    Route::resource('site-settings', SiteSettingController::class);
+    Route::get('/site-settings', [SiteSettingController::class, 'index'])->name('site_settings.index');
+    Route::get('/site-settings/{id}/edit', [SiteSettingController::class, 'edit'])->name('site_settings.edit');
+    Route::post('/site-settings/{id}', [SiteSettingController::class, 'update'])->name('site_settings.update');
+});
 
-Route::get('/site-settings', [SiteSettingController::class, 'index'])->name('site_settings.index');
-Route::get('/site-settings/{id}/edit', [SiteSettingController::class, 'edit'])->name('site_settings.edit');
-Route::post('/site-settings/{id}', [SiteSettingController::class, 'update'])->name('site_settings.update');
-
-Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.xml');
+Route::get('sitemap.xml', function(){
+    return response()->view('sitemap.index')->header('Content-Type', 'text/xml');
+});
 
 // Pages
 // TODO: implement CMS features for page and form editing 

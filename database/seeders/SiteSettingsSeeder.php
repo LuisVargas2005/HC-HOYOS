@@ -19,10 +19,10 @@ class SiteSettingsSeeder extends Seeder
         ];
 
         foreach ($settings as $setting => $value) {
-            SiteSetting::create([
-                "name" => $setting,
-                "value" => $value,
-            ]);
+            SiteSetting::updateOrCreate(
+                ['name' => $setting],         // condición (única)
+                ['value' => $value]           // datos a actualizar o insertar
+            );
         }
     }
 }

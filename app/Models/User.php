@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Product;
+use App\Models\Team;
+use App\Models\BrowsingHistory;
+use App\Models\Rating;
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasDefaultTenant;
@@ -37,21 +41,7 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     use SetsProfilePhotoFromUrl;
     use TwoFactorAuthenticatable;
     use HasTeams;
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        $user = auth()->user();
-        if ($panel->getId() === "admin" && !$user->hasRole('admin')) {
-            return false;
-        }
-
-        return true; // TODO: Check panel and role
-    }
-
-    public function wishlist()
-    {
-        return $this->hasMany(Wishlist::class);
-    }
+    use HasPanelShield;
 
     /**
      * The attributes that are mass assignable.
@@ -94,11 +84,79 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     {
         return [
             'email_verified_at' => 'datetime',
+            'two_factor_confirmed_at' => 'datetime',
         ];
     }
 
     /**
-     * Get the URL to the user's profile photo.
+     * Relación muchos-a-muchos con los productos en la lista de deseos
+     */
+    public function wishlist(): BelongsToMany
+{
+    return $this->belongsToMany(Product::class, 'wishlists')
+               ->withTimestamps()
+               ->withPivot(['share_token']);
+}
+
+    /**
+     * Verifica si un producto está en la lista de deseos del usuario
+     */
+    public function hasInWishlist(Product $product): bool
+    {
+        return $this->wishlist()->where('product_id', $product->id)->exists();
+    }
+
+    /**
+     * Cuenta los productos en la lista de deseos
+     */
+    public function wishlistCount(): int
+    {
+        return $this->wishlist()->count();
+    }
+
+    /**
+     * Agrega un producto a la lista de deseos
+     */
+    public function addToWishlist(Product $product, ?string $shareToken = null): void
+    {
+        $this->wishlist()->attach($product->id, [
+            'share_token' => $shareToken ?? bin2hex(random_bytes(16))
+        ]);
+    }
+
+    /**
+     * Elimina un producto de la lista de deseos
+     */
+    public function removeFromWishlist(Product $product): void
+    {
+        $this->wishlist()->detach($product->id);
+    }
+
+    /**
+     * Obtiene el token de compartir para un producto específico
+     */
+    public function getShareTokenFor(Product $product): ?string
+    {
+        return $this->wishlist()
+            ->where('product_id', $product->id)
+            ->first()
+            ?->pivot
+            ->share_token;
+    }
+
+    /**
+     * Panel de administración
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        if ($panel->getId() === "admin") {
+            return $this->hasRole('admin');
+        }
+        return true;
+    }
+
+    /**
+     * URL de la foto de perfil
      */
     public function profilePhotoUrl(): Attribute
     {
@@ -108,7 +166,7 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     }
 
     /**
-     * @return array<Model> | Collection
+     * Obtiene los tenants (equipos) del usuario
      */
     public function getTenants(Panel $panel): array|Collection
     {
@@ -122,7 +180,6 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
 
     public function canAccessFilament(): bool
     {
-        //        return $this->hasVerifiedEmail();
         return true;
     }
 
@@ -131,21 +188,33 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
         return $this->latestTeam;
     }
 
+    /**
+     * Relación con el equipo actual
+     */
     public function latestTeam(): BelongsTo
     {
         return $this->belongsTo(Team::class, 'current_team_id');
     }
 
+    /**
+     * Historial de navegación
+     */
     public function browsingHistory(): HasMany
     {
         return $this->hasMany(BrowsingHistory::class);
     }
 
+    /**
+     * Valoraciones del usuario
+     */
     public function ratings(): HasMany
     {
         return $this->hasMany(Rating::class);
     }
 
+    /**
+     * Membresías en equipos
+     */
     public function membership(): BelongsToMany
     {
         return $this->belongsToMany(Team::class)->withPivot(['role']);

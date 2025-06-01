@@ -5,6 +5,9 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+
+    'meta_description' => 'Your premier ecommerce destination',
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

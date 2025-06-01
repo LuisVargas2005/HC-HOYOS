@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale() ?? 'en') }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="author" content="TuNombre o TuEmpresa">
+    <meta name="robots" content="index, follow">
 
     <title>@yield('title', config('app.name'))</title>
-    <meta name="description" content="@yield('meta_description', 'Your premier ecommerce destination')">
+    <meta name="description" content="@yield('meta_description', config('app.meta_description'))">
     <meta name="keywords" content="@yield('meta_keywords', 'ecommerce, online shopping')">
 
     <!-- Open Graph / Social Media Meta Tags -->
@@ -16,6 +18,7 @@
     <meta property="og:url" content="{{ url()->current() }}">
 
     <!-- Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="..." crossorigin="anonymous" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     @stack('styles')
@@ -42,7 +45,7 @@
 
     <footer class="bg-gray-800 text-white py-8 mt-8">
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div>
                     <h3 class="text-lg font-semibold mb-4">{{ config('app.name') }}</h3>
                     <p class="text-gray-300">Your premier ecommerce destination for quality products.</p>

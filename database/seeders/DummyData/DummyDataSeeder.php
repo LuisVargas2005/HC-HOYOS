@@ -2,8 +2,10 @@
 
 namespace Database\Seeders\DummyData;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\DummyData\CarProductCategorySeeder;
+use Database\Seeders\DummyData\CarProductSeeder;
+use Database\Seeders\DummyData\ProductCollectionSeeder;
 
 class DummyDataSeeder extends Seeder
 {
