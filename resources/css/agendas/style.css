@@ -1,0 +1,234 @@
+.appointment-carousel {
+  text-align: center;
+  max-width: 900px;
+  margin: auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+.subtitle {
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.step-indicator {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.step-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* busqueda */
+
+.search-bar {
+  margin: 1rem 0;
+}
+
+.search-bar input {
+  padding: 0.5rem;
+  width: 60%;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.carousel-container {
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel {
+  display: flex;
+  flex-wrap: wrap; /* 👉 Esto permite que se acomoden en varias filas */
+  justify-content: center;
+  gap: 1rem;
+}
+
+.card {
+  flex: 0 0 calc(25% - 1rem); /* 👉 4 tarjetas por fila, menos el gap */
+  max-width: calc(25% - 1rem);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: white;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.card img {
+  max-width: 80px;
+  margin-bottom: 0.5rem;
+}
+
+.card span {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.carousel-nav {
+  margin-top: 1rem;
+}
+
+.carousel-nav button {
+  padding: 10px 15px;
+  font-size: 1.5rem;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+/* paso 2 */
+
+.step {
+  display: none;
+}
+.step.active {
+  display: block;
+}
+.hidden {
+  display: none;
+}
+
+.models-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.model-card {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+  width: 150px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.model-card:hover {
+  background-color: #f0f0f0;
+}
+.model-card.selected {
+  border: 2px solid #007bff;
+  background-color: #e0f0ff;
+}
+
+/* paso 3 */
+.problems-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+}
+
+.problem-card {
+  padding: 1rem 1.5rem;
+  background: #fff;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+  text-align: center;
+  font-weight: 500;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+}
+.problem-card:hover {
+  border-color: #06b6d4;
+}
+.problem-card.selected {
+  background-color: #06b6d4;
+  color: white;
+  border-color: #06b6d4;
+}
+
+/*paso 4 */
+
+.date-time-selector {
+  margin: 1.5rem auto;
+  text-align: center;
+}
+
+#datePicker {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 220px;
+}
+
+.time-slots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.time-slot {
+  padding: 0.75rem 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: white;
+  transition: 0.3s ease;
+  font-weight: 500;
+}
+
+.time-slot:hover {
+  background-color: #f0f0f0;
+}
+
+.time-slot.selected {
+  background-color: #06b6d4;
+  color: white;
+  border-color: #06b6d4;
+}
+
+/* paso 5 */
+
+.client-form {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .card {
+    flex: 0 0 calc(50% - 1rem);
+    max-width: calc(50% - 1rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

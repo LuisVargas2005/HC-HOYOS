@@ -22,24 +22,29 @@ class ProductController extends Controller
     {
         $this->recommendationService = $recommendationService;
     }
-
-    public function index(Request $request)
     
-    {
-        $products = QueryBuilder::for(Product::class)
-            ->allowedFilters([
-                'name',
-                'price',
-                'created_at',
-                AllowedFilter::scope('price_min'),
-                AllowedFilter::scope('price_max'),
-            ])
-            ->allowedSorts(['name', 'price', 'created_at'])
-            ->paginate(config('pagination.per_page'))
-            ->appends($request->query());
+public function index(Request $request)
+{
+    $products = QueryBuilder::for(Product::class)
+        ->allowedFilters([
+            'name',
+            'price',
+            'created_at',
+            AllowedFilter::scope('price_min'),
+            AllowedFilter::scope('price_max'),
+        ])
+        ->allowedSorts(['name', 'price', 'created_at'])
+        ->paginate(config('pagination.per_page'))
+        ->appends($request->query());
 
-        return view('products.index', compact('products'));
+    // Cargar la relación wishlist si el usuario está autenticado
+    $user = auth()->user();
+    if ($user) {
+        $user->load('wishlist');
     }
+
+    return view('products.index', compact('products', 'user'));
+}
 
     public function show(Product $product)
     {

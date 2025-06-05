@@ -22,6 +22,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController; // New controller for cart
+use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +46,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/wishlist/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
     Route::delete('/wishlist/remove/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
     Route::post('/wishlist/share', [WishlistController::class, 'share'])->name('wishlist.share');
+Route::middleware('auth')->post('/wishlist/{product}', [App\Http\Controllers\WishlistController::class, 'toggle'])->name('wishlist.toggle');
 });
+
+// Agendas 
+
+Route::get('/agendar', function () {
+    return view('agendas.agendas');
+});
+Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
 
 Route::get('/wishlist/shared/{shareToken}', [WishlistController::class, 'sharedWishlist'])->name('wishlist.shared');
 

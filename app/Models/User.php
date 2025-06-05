@@ -91,12 +91,11 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     /**
      * Relación muchos-a-muchos con los productos en la lista de deseos
      */
-    public function wishlist(): BelongsToMany
+    public function wishlist()
 {
-    return $this->belongsToMany(Product::class, 'wishlists')
-               ->withTimestamps()
-               ->withPivot(['share_token']);
+    return $this->belongsToMany(Product::class, 'wishlists')->withTimestamps();
 }
+
 
     /**
      * Verifica si un producto está en la lista de deseos del usuario

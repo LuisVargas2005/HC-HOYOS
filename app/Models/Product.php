@@ -96,11 +96,9 @@ class Product extends Model implements Orderable
     /**
      * Relación con los usuarios que tienen este producto en su wishlist
      */
-    public function wishlistedBy(): BelongsToMany
+    public function wishedBy()
 {
-    return $this->belongsToMany(User::class, 'wishlists')
-               ->withTimestamps()
-               ->withPivot(['share_token']);
+    return $this->belongsToMany(User::class, 'wishlists')->withTimestamps();
 }
 
     /**

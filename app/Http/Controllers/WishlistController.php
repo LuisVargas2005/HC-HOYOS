@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
+
+
 class WishlistController extends Controller
 {
     public function index()
@@ -55,4 +57,21 @@ class WishlistController extends Controller
         
         return view('wishlist.shared', compact('products'));
     }
+
+    public function toggle(Product $product)
+{
+    $user = auth()->user();
+
+    if (!$user) {
+        return response()->json(['message' => 'Unauthorized'], 401);
+    }
+
+    if ($user->wishlist()->where('product_id', $product->id)->exists()) {
+        $user->wishlist()->detach($product->id);
+        return response()->json(['inWishlist' => false]);
+    } else {
+        $user->wishlist()->attach($product->id);
+        return response()->json(['inWishlist' => true]);
+    }
+}
 }

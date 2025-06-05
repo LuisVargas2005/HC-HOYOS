@@ -114,23 +114,82 @@
             @endforeach
         </div>
     </div>
+        
+        {{-- contenedores --}}
 
-    <!-- Special Offers -->
-    <div class="container mx-auto px-4 py-12">
-        <h2 class="text-2xl font-bold mb-8">Special Offers</h2>
-        <div class="bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg shadow-xl overflow-hidden">
-            <div class="md:flex">
-                <div class="md:w-1/2 p-8 md:p-12 text-white">
-                    <h3 class="text-3xl font-bold mb-4">Summer Sale</h3>
-                    <p class="text-lg mb-6">Get up to 50% off on selected items. Limited time offer!</p>
-                    <a href="{{ route('products.index', ['sale' => 'true']) }}" class="inline-block bg-white text-blue-600 font-bold py-2 px-6 rounded-full hover:bg-gray-100 transition">Shop Now</a>
-                </div>
-                <div class="md:w-1/2 bg-white flex items-center justify-center p-8">
-                    <img src="{{ asset('images/sale.jpg') }}" alt="Summer Sale" class="max-h-64">
-                </div>
+            <h1 class="text-center text-3xl font-bold mt-8">Explora Nuestros Servicios</h1>
+            <p class="text-center text-gray-600 mt-4">Descubre lo que tenemos para ofrecerte.</p>
+
+            <div class="container mx-auto py-8 px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Contenedor 1 - Catálogo de Productos -->
+                <a href="{{ route('products.index') }}" class="group relative bg-white rounded-xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 h-[400px] block">
+                    <!-- Imagen de fondo -->
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                            alt="Catálogo de productos" 
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    
+                    <!-- Contenido 1 Productos-->
+
+                    <div class="p-6 absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white to-white/90">
+                        <div class="flex items-center mb-3">
+                            <div class="bg-indigo-100 p-2 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Catálogo de Productos</h2>
+                        <p class="text-gray-600 mb-4">Explora nuestra amplia selección de productos cuidadosamente elegidos para satisfacer tus necesidades.</p>
+                        
+                        <div class="inline-flex items-center text-indigo-600 font-medium hover:text-indigo-800 transition-colors">
+                            Ver productos
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- Efecto hover -->
+                    <div class="absolute inset-0 bg-indigo-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                </a>
+
+                <!-- Contenedor 2 - Agenda-->
+                <a href="{{ url('/agendar') }}" class="group relative bg-white rounded-xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 h-[400px] block">
+                    
+                    <!-- Imagen de fondo -->
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                            alt="Tienda" 
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    
+                    <div class="p-6 absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white to-white/90">
+                        <div class="flex items-center mb-3">
+                            <div class="bg-indigo-100 p-2 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Servicio de Reparación</h2>
+                        <p class="text-gray-600 mb-4">Nuestro equipo está listo para ayudarte. Agenda una cita o contáctanos para resolver tus dudas.</p>
+                        
+                        <div class="inline-flex items-center text-indigo-600 font-medium hover:text-indigo-800 transition-colors">
+                            Agendar cita
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- Efecto hover -->
+                    <div class="absolute inset-0 bg-indigo-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                </a>
             </div>
-        </div>
-    </div>
 
     <!-- Testimonials -->
     <div class="container mx-auto px-4 py-12 bg-gray-50">
