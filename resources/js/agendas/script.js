@@ -1,3 +1,4 @@
+// Carrusel
 const carousel = document.getElementById('carousel');
 const cards = document.querySelectorAll('.card');
 const prevBtn = document.getElementById('prevBtn');
@@ -5,7 +6,6 @@ const nextBtn = document.getElementById('nextBtn');
 let scrollAmount = 0;
 const cardWidth = 160;
 
-// Carrusel
 nextBtn.addEventListener('click', () => {
   scrollAmount += cardWidth;
   if (scrollAmount >= carousel.scrollWidth - carousel.clientWidth) scrollAmount = 0;
@@ -26,18 +26,18 @@ document.getElementById('categorySearch').addEventListener('input', function () 
   });
 });
 
-// PASO 2
+// Paso 2
 let selectedCategory = null;
 let selectedModel = null;
 
 const modelsByCategory = {
-  mobile: ['iPhone 14', 'Samsung Galaxy S22', 'Pixel 7'],
-  desktop: ['iMac M1', 'HP Pavilion', 'Dell XPS'],
-  tablet: ['iPad Air', 'Galaxy Tab', 'Surface Pro'],
+  mobile: ['iPhone 14', 'Samsung Galaxy S22', 'Otro'],
+  desktop: ['iMac M1', 'HP Pavilion', 'Otro'],
+  tablet: ['iPad Air', 'Galaxy Tab', 'Otro'],
   camera: ['Canon EOS', 'Nikon Z50'],
   game: ['PlayStation 5', 'Xbox Series X'],
   industrial: ['Siemens Control', 'Mitsubishi PLC'],
-  others: ['Other Device 1', 'Other Device 2']
+  others: ['Otro dispositivo 1', 'Otro dispositivo 2']
 };
 
 function renderModels(category) {
@@ -56,7 +56,6 @@ function renderModels(category) {
   });
 }
 
-// Activar Paso 2
 cards.forEach(card => {
   card.addEventListener('click', () => {
     selectedCategory = card.dataset.category;
@@ -68,28 +67,26 @@ cards.forEach(card => {
   });
 });
 
-// PASO 3
-
+// Paso 3
 let selectedProblem = null;
 
 const problemsByModel = {
   'iPhone 14': ['Pantalla rota', 'Batería agotada', 'No enciende'],
   'Samsung Galaxy S22': ['Puerto de carga dañado', 'Pantalla negra', 'Se reinicia solo'],
-  'Pixel 7': ['No carga', 'Botón de encendido roto'],
+  'Otro': ['Batería', 'Bloqueo', 'Virus'],
   'iMac M1': ['Pantalla no responde', 'Ventilador ruidoso'],
   'HP Pavilion': ['Problemas de arranque', 'Teclado no funciona'],
-  'Dell XPS': ['Sobrecalentamiento', 'Pantalla azul'],
-  'iPad Air': ['Pantalla quebrada', 'Problemas de audio'],
-  'Galaxy Tab': ['Wifi no funciona', 'No reconoce el cargador'],
-  'Surface Pro': ['Pantalla táctil sin respuesta', 'No carga'],
+  'Otro': ['Sobrecalentamiento', 'Instalación de software', 'Pantalla', 'Teclado'],
+  'iPad Air': ['Pantalla quebrada', 'Problemas de audio', 'Software', 'Virus'],
+  'Galaxy Tab': ['Wifi no funciona', 'No reconoce el cargador', 'Software', 'Virus'],
   'Canon EOS': ['Lente atascado', 'No toma fotos'],
   'Nikon Z50': ['Error de tarjeta', 'Pantalla no enciende'],
   'PlayStation 5': ['No da imagen', 'No lee discos'],
   'Xbox Series X': ['Ruido extraño', 'No arranca'],
   'Siemens Control': ['Fallo de comunicación', 'Pantalla apagada'],
   'Mitsubishi PLC': ['Error de sistema', 'No se conecta'],
-  'Other Device 1': ['Problema 1', 'Problema 2'],
-  'Other Device 2': ['Problema 3', 'Problema 4']
+  'Otro dispositivo 1': ['Problema 1', 'Problema 2'],
+  'Otro dispositivo 2': ['Problema 3', 'Problema 4']
 };
 
 function renderProblems(model) {
@@ -108,7 +105,6 @@ function renderProblems(model) {
   });
 }
 
-// Mostrar paso 3 al hacer clic en "Siguiente" en paso 2
 document.getElementById('goToStep3').addEventListener('click', () => {
   if (!selectedModel) {
     alert('Por favor selecciona un modelo.');
@@ -123,17 +119,12 @@ document.getElementById('goToStep3').addEventListener('click', () => {
   renderProblems(selectedModel);
 });
 
-// PASO 4
-
+// Paso 4
 let selectedDate = null;
 let selectedTime = null;
 
-const availableTimes = [
-  '09:00 AM', '10:00 AM', '11:00 AM',
-  '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'
-];
+const availableTimes = ['09:00 AM', '10:00 AM', '11:00 AM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'];
 
-// Mostrar paso 4 desde paso 3
 document.getElementById('goToStep4').addEventListener('click', () => {
   if (!selectedProblem) {
     alert('Por favor selecciona un problema.');
@@ -154,7 +145,6 @@ function setMinDateToday() {
   document.getElementById('datePicker').setAttribute('min', today);
 }
 
-// Actualiza la fecha seleccionada
 document.getElementById('datePicker').addEventListener('change', (e) => {
   selectedDate = e.target.value;
 });
@@ -175,28 +165,23 @@ function renderTimeSlots() {
   });
 }
 
-// 🧩 BLOQUE QUE FALTABA — Paso 4 a Paso 5
+// Paso 5
+let clientData = {};
+
 document.getElementById('goToStep5').addEventListener('click', () => {
   selectedDate = document.getElementById('datePicker')?.value;
   selectedTime = document.querySelector('.time-slot.selected')?.innerText;
 
   if (!selectedDate || !selectedTime) {
-    alert('Por favor selecciona una fecha y una hora.');
+    alert('Por favor selecciona una fecha y hora.');
     return;
   }
-
-  console.log('Fecha seleccionada:', selectedDate);
-  console.log('Hora seleccionada:', selectedTime);
 
   document.querySelector('.step-4').classList.remove('active');
   document.querySelector('.step-4').classList.add('hidden');
   document.querySelector('.step-5').classList.remove('hidden');
   document.querySelector('.step-5').classList.add('active');
 });
-
-// paso 5
-
-let clientData = {};
 
 document.getElementById('goToStep6').addEventListener('click', () => {
   const name = document.getElementById('clientName').value.trim();
@@ -209,15 +194,15 @@ document.getElementById('goToStep6').addEventListener('click', () => {
   }
 
   clientData = { name, email, phone };
-  console.log('Datos del cliente:', clientData);
 
   document.querySelector('.step-5').classList.remove('active');
   document.querySelector('.step-5').classList.add('hidden');
   document.querySelector('.step-6').classList.remove('hidden');
   document.querySelector('.step-6').classList.add('active');
 
-// paso 6
-  // Mostrar resumen en el Paso 6
+  showSummary();
+});
+
 function showSummary() {
   const summaryContainer = document.getElementById('summaryContainer');
   summaryContainer.innerHTML = `
@@ -232,25 +217,10 @@ function showSummary() {
   `;
 }
 
-showSummary();
-
-document.getElementById('confirmAppointment').addEventListener('click', () => {
-  const appointmentData = {
-    category: selectedCategory,
-    model: selectedModel,
-    problem: selectedProblem,
-    date: selectedDate,
-    time: selectedTime,
-    client: clientData
-  };
-
-  console.log('Cita agendada:', appointmentData);
-  alert('¡Tu cita ha sido agendada con éxito!');
-
-  // Aquí podrías hacer una petición AJAX para guardar en backend
-  document.getElementById('submitAppointment').addEventListener('click', () => {
-  if (!selectedDate || !selectedTime) {
-    alert('Selecciona una fecha y hora válidas.');
+// Enviar cita
+document.getElementById('submitAppointment').addEventListener('click', () => {
+  if (!selectedDate || !selectedTime || !clientData.name || !clientData.email || !clientData.phone) {
+    alert('Por favor completa todos los datos antes de confirmar.');
     return;
   }
 
@@ -273,15 +243,16 @@ document.getElementById('confirmAppointment').addEventListener('click', () => {
     },
     body: JSON.stringify(appointmentData)
   })
-  .then(res => res.json())
-  .then(data => {
-    if (data.success) {
-      alert('Cita agendada correctamente. Revisa tu correo.');
-      // Opcional: redirigir o limpiar
-    } else {
-      alert('Ocurrió un error al guardar la cita.');
-    }
-  });
-});
-});
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        alert('¡Cita agendada correctamente! Revisa tu correo.');
+      } else {
+        alert('Ocurrió un error al guardar la cita.');
+      }
+    })
+    .catch(err => {
+      console.error('Error al enviar la cita:', err);
+      alert('Error al enviar la cita.');
+    });
 });

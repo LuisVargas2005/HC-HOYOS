@@ -2,12 +2,10 @@
 
 namespace App\Mail;
 
+use App\Models\Appointment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Appointment;
 
 class AppointmentConfirmation extends Mailable
 {
@@ -20,22 +18,9 @@ class AppointmentConfirmation extends Mailable
         $this->appointment = $appointment;
     }
 
-    public function envelope(): Envelope
+    public function build()
     {
-        return new Envelope(
-            subject: 'Confirmación de Cita',
-        );
-    }
-
-    public function content(): Content
-    {
-        return new Content(
-            view: 'emails.appointment-confirmation',
-        );
-    }
-
-    public function attachments(): array
-    {
-        return [];
+        return $this->subject('Confirmación de tu cita de reparación')
+                    ->view('emails.appointment-confirmation');
     }
 }

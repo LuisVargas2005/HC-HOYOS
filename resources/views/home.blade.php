@@ -8,20 +8,20 @@
         <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-8">
             <div class="max-w-3xl text-center mx-auto">
                 <h1 class="text-black block font-medium text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-                    Welcome to {{config('app.name')}}
+                    Bienvenido a {{config('app.name')}}
                 </h1>
             </div>
 
             <div class="max-w-3xl text-center mx-auto">
                 <p class="text-lg text-gray-700">
-                    Explore our innovative and dynamic shopping platform with the best products at competitive prices.
+                    Sistemas y servicios
                 </p>
             </div>
 
             <div class="text-center">
                 <a class="inline-flex justify-center items-center gap-x-3 text-center bg-gradient-to-tl from-blue-600 to-violet-600 shadow-lg shadow-transparent hover:shadow-blue-700/50 border border-transparent text-white text-sm font-medium rounded-full focus:outline-none focus:shadow-blue-700/50 py-3 px-6"
                     href="{{ route('products.index') }}">
-                    Shop Now
+                    Comprar ahora
                     <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -34,7 +34,7 @@
 
     <!-- Featured Categories -->
     <div class="container mx-auto px-4 py-12">
-        <h2 class="text-2xl font-bold mb-8 text-center">Shop by Category</h2>
+        <h2 class="text-2xl font-bold mb-8 text-center">Comprar por categoría</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <a href="{{ route('products.index', ['category' => 'electronics']) }}" class="group">
                 <div class="bg-white rounded-lg shadow-md overflow-hidden transition transform hover:scale-105">
@@ -44,7 +44,7 @@
                         </svg>
                     </div>
                     <div class="p-4 text-center">
-                        <h3 class="font-medium">Electronics</h3>
+                        <h3 class="font-medium">Celulares</h3>
                     </div>
                 </div>
             </a>
@@ -56,7 +56,7 @@
                         </svg>
                     </div>
                     <div class="p-4 text-center">
-                        <h3 class="font-medium">Clothing</h3>
+                        <h3 class="font-medium">Computadores </h3>
                     </div>
                 </div>
             </a>
@@ -68,7 +68,7 @@
                         </svg>
                     </div>
                     <div class="p-4 text-center">
-                        <h3 class="font-medium">Home & Living</h3>
+                        <h3 class="font-medium">Accesesorios</h3>
                     </div>
                 </div>
             </a>
@@ -80,7 +80,7 @@
                         </svg>
                     </div>
                     <div class="p-4 text-center">
-                        <h3 class="font-medium">Books</h3>
+                        <h3 class="font-medium">Mas</h3>
                     </div>
                 </div>
             </a>
@@ -193,13 +193,13 @@
 
     <!-- Testimonials -->
     <div class="container mx-auto px-4 py-12 bg-gray-50">
-        <h2 class="text-2xl font-bold mb-8 text-center">What Our Customers Say</h2>
+        <h2 class="text-2xl font-bold mb-8 text-center">our developers</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <div class="flex items-center mb-4">
                     <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 font-bold text-xl">J</div>
                     <div class="ml-4">
-                        <h3 class="font-medium">John Doe</h3>
+                        <h3 class="font-medium">Luis carlos vargas</h3>
                         <div class="flex text-yellow-400">
                             <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
                             <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
