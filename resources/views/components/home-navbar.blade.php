@@ -1,28 +1,28 @@
-<header class="bg-white shadow-md">
-    <!-- Top Bar -->
-    <div class="bg-blue-600 text-white py-2">
+<header id="main-header" class="bg-white sticky top-0 z-50 transition-shadow duration-300">
+    <!-- Top Bar - Contacto y Acceso -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-2 text-base">
         <div class="container mx-auto px-4 flex justify-between items-center">
             <div class="flex items-center space-x-4">
-                <a href="mailto:support@example.com" class="text-sm hover:text-blue-200 flex items-center">
+                <a href="mailto:support@example.com" class="hover:text-blue-200 flex items-center transition-colors">
                     <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
-                    support@example.com
+                    Hcsistemasyservicios@gmail.com
                 </a>
-                <a href="tel:+1234567890" class="text-sm hover:text-blue-200 flex items-center">
+                <a href="#" class="hover:text-blue-200 flex items-center transition-colors">
                     <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                     </svg>
-                    (123) 456-7890
+                    (321) 495 6470
                 </a>
             </div>
             <div class="flex items-center space-x-4">
                 @guest
-                    <a href="{{ route('login') }}" class="text-sm hover:text-blue-200">Login</a>
-                    <a href="{{ route('register') }}" class="text-sm hover:text-blue-200">Register</a>
+                    <a href="{{ route('login') }}" class="hover:text-blue-200 transition-colors">Login</a>
+                    <a href="{{ route('register') }}" class="hover:text-blue-200 transition-colors">Registrarse</a>
                 @else
                     <div class="relative group">
-                        <button class="text-sm hover:text-blue-200 flex items-center">
+                        <button class="hover:text-blue-200 flex items-center transition-colors">
                             {{ Auth::user()->name }}
                             <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -34,9 +34,7 @@
                             <a href="{{ route('wishlist.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Wishlist</a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Logout
-                                </button>
+                                <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
                             </form>
                         </div>
                     </div>
@@ -46,26 +44,29 @@
     </div>
 
     <!-- Main Navigation -->
-    <div class="container mx-auto px-4 py-4">
+    <div class="container mx-auto px-4 py-4 text-base">
         <div class="flex items-center justify-between">
             <!-- Logo -->
             <a href="{{ route('home') }}" class="flex-shrink-0">
-                <h1 class="text-2xl font-bold text-blue-600">{{ config('app.name') }}</h1>
+                <h1 class="text-2xl font-bold text-blue-600 hover:text-blue-800 transition-colors">{{ config('app.name') }}</h1>
             </a>
 
-            <!-- Search Bar -->
-            <div class="hidden md:block flex-grow mx-8">
-                <form action="{{ route('products.index') }}" method="GET" class="flex">
-                    <input type="text" name="search" placeholder="Search for products..." class="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </button>
-                </form>
-            </div>
+            <!-- Navegación principal -->
+            <nav class="hidden md:flex items-center space-x-8 text-lg">
+                <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600 font-medium">Inicio</a>
+                <a href="{{ route('products.index') }}" class="text-gray-700 hover:text-blue-600 font-medium">Catalogo</a>
+                <a href="{{ route('contact') }}" class="text-gray-700 hover:text-blue-600 font-medium">Contactanos</a>
+                <div class="relative group">
+                    <button class="text-gray-700 hover:text-blue-600 font-medium">Servicios</button>
+                    <div class="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                        <a href="{{ url('/agendar') }}" class="block px-4 py-2 text-gray-700 hover:text-blue-600 font-medium">Agendar</a>
+                        <a href="{{ route('products.index') }}" class="block px-4 py-2 text-gray-700 hover:text-blue-600 font-medium">Catálogo</a>
+                        <a href="{{ route('contact') }}" class="block px-4 py-2 text-gray-700 hover:text-blue-600 font-medium">Soporte</a>
+                    </div>
+                </div>
+            </nav>
 
-            <!-- Navigation Icons -->
+            <!-- Iconos de acción -->
             <div class="flex items-center space-x-6">
                 <a href="{{ route('wishlist.index') }}" class="text-gray-600 hover:text-blue-600 relative">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,36 +89,20 @@
                 </button>
             </div>
         </div>
-
-        <!-- Mobile Search (visible only on mobile) -->
-        <div class="mt-4 md:hidden">
-            <form action="{{ route('products.index') }}" method="GET" class="flex">
-                <input type="text" name="search" placeholder="Search for products..." class="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-li nejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </button>
-            </form>
-        </div>
     </div>
-
-    <!-- Category Navigation -->
-    <nav class="bg-gray-100 py-3 shadow-inner">
-        <div class="container mx-auto px-4">
-            <ul class="flex space-x-8 overflow-x-auto pb-1 hide-scrollbar">
-                <li><a href="{{ route('products.index') }}" class="text-gray-700 hover:text-blue-600 whitespace-nowrap font-medium">All Products</a></li>
-                <li><a href="{{ route('products.index', ['category' => 'electronics']) }}" class="text-gray-700 hover:text-blue-600 whitespace-nowrap">Electronics</a></li>
-                <li><a href="{{ route('products.index', ['category' => 'clothing']) }}" class="text-gray-700 hover:text-blue-600 whitespace-nowrap">Clothing</a></li>
-                <li><a href="{{ route('products.index', ['category' => 'home']) }}" class="text-gray-700 hover:text-blue-600 whitespace-nowrap">Home & Living</a></li>
-                <li><a href="{{ route('products.index', ['category' => 'books']) }}" class="text-gray-700 hover:text-blue-600 whitespace-nowrap">Books</a></li>
-                <li><a href="{{ route('products.index', ['category' => 'beauty']) }}" class="text-gray-700 hover:text-blue-600 whitespace-nowrap">Beauty</a></li>
-                <li><a href="{{ route('products.index', ['category' => 'sports']) }}" class="text-gray-700 hover:text-blue-600 whitespace-nowrap">Sports</a></li>
-                <li><a href="{{ route('products.index', ['category' => 'toys']) }}" class="text-gray-700 hover:text-blue-600 whitespace-nowrap">Toys</a></li>
-            </ul>
-        </div>
-    </nav>
 </header>
+
+<script>
+    // Agregar sombra al hacer scroll
+    document.addEventListener('scroll', () => {
+        const header = document.getElementById('main-header');
+        if (window.scrollY > 10) {
+            header.classList.add('shadow-md');
+        } else {
+            header.classList.remove('shadow-md');
+        }
+    });
+</script>
 
 <style>
     .hide-scrollbar::-webkit-scrollbar {
