@@ -1,234 +1,210 @@
+:root {
+  --primary: #1e4db7;
+  --primary-accent: #2460d3;
+  --background: #f9fafb;
+  --text: #111827;
+  --muted: #6b7280;
+  --neutral: #e5e7eb;
+  --white: #ffffff;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text);
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+}
+
+/* CONTENEDOR PRINCIPAL */
 .appointment-carousel {
-  text-align: center;
-  max-width: 900px;
-  margin: auto;
-  font-family: 'Segoe UI', sans-serif;
+  max-width: 600px;
+  background: var(--white);
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
 .title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin: 1rem 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--white);
+  background-color: var(--primary);
+  padding: 1rem;
+  border-radius: 8px 8px 0 0;
+  text-align: center;
 }
 
-.subtitle {
-  color: #555;
-  margin-bottom: 2rem;
-}
-
+.subtitle,
 .step-indicator {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 .step-title {
   font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text);
   margin-bottom: 1rem;
+  text-align: left;
 }
 
-/* busqueda */
+/* FORMULARIOS Y CAMPOS */
+.search-bar input,
+#datePicker,
+.form-group input,
+select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--neutral);
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
+
+.search-bar input:focus,
+.form-group input:focus,
+#datePicker:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(30, 77, 183, 0.3);
+}
 
 .search-bar {
-  margin: 1rem 0;
+  margin-bottom: 1.5rem;
 }
 
-.search-bar input {
-  padding: 0.5rem;
-  width: 60%;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.carousel-container {
-  overflow: hidden;
-  width: 100%;
-}
-
+/* CARDS DE CATEGORÍAS */
 .carousel {
   display: flex;
-  flex-wrap: wrap; /* 👉 Esto permite que se acomoden en varias filas */
-  justify-content: center;
+  flex-wrap: wrap;
   gap: 1rem;
+  justify-content: center;
 }
 
 .card {
-  flex: 0 0 calc(25% - 1rem); /* 👉 4 tarjetas por fila, menos el gap */
-  max-width: calc(25% - 1rem);
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  flex: 0 0 calc(50% - 1rem);
+  max-width: calc(50% - 1rem);
+  background: var(--white);
+  border: 1px solid var(--neutral);
+  border-radius: 10px;
   padding: 1rem;
-  background-color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
   text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .card img {
-  max-width: 80px;
+  max-width: 60px;
   margin-bottom: 0.5rem;
 }
 
 .card span {
-  font-size: 0.95rem;
   font-weight: 500;
+  color: var(--text);
 }
 
-.carousel-nav {
+/* SELECCIÓN DE MODELOS */
+.models-container,
+.problems-container,
+.time-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.model-card,
+.problem-card,
+.time-slot {
+  background: var(--white);
+  border: 1px solid var(--neutral);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  min-width: 120px;
+}
+
+.model-card:hover,
+.problem-card:hover,
+.time-slot:hover {
+  background-color: var(--neutral);
+}
+
+.model-card.selected,
+.problem-card.selected,
+.time-slot.selected {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.date-time-selector {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* FORMULARIO CLIENTE */
+.client-form {
   margin-top: 1rem;
 }
 
-.carousel-nav button {
-  padding: 10px 15px;
-  font-size: 1.5rem;
-  margin: 0 10px;
-  cursor: pointer;
+.form-group {
+  margin-bottom: 1rem;
+  text-align: left;
 }
 
-/* paso 2 */
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+}
 
+/* BOTONES */
+.btn {
+  display: block;
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: var(--primary-accent);
+}
+
+/* PASOS */
 .step {
   display: none;
 }
 .step.active {
   display: block;
 }
-.hidden {
-  display: none;
-}
 
-.models-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  margin: 1rem 0;
-}
-.model-card {
-  border: 1px solid #ccc;
-  padding: 1rem;
-  border-radius: 8px;
-  width: 150px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.model-card:hover {
-  background-color: #f0f0f0;
-}
-.model-card.selected {
-  border: 2px solid #007bff;
-  background-color: #e0f0ff;
-}
-
-/* paso 3 */
-.problems-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1.5rem;
-  justify-content: center;
-}
-
-.problem-card {
-  padding: 1rem 1.5rem;
-  background: #fff;
-  border: 2px solid #ccc;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 200px;
-  text-align: center;
-  font-weight: 500;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
-}
-.problem-card:hover {
-  border-color: #06b6d4;
-}
-.problem-card.selected {
-  background-color: #06b6d4;
-  color: white;
-  border-color: #06b6d4;
-}
-
-/*paso 4 */
-
-.date-time-selector {
-  margin: 1.5rem auto;
-  text-align: center;
-}
-
-#datePicker {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  width: 220px;
-}
-
-.time-slots {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.time-slot {
-  padding: 0.75rem 1.2rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: white;
-  transition: 0.3s ease;
-  font-weight: 500;
-}
-
-.time-slot:hover {
-  background-color: #f0f0f0;
-}
-
-.time-slot.selected {
-  background-color: #06b6d4;
-  color: white;
-  border-color: #06b6d4;
-}
-
-/* paso 5 */
-
-.client-form {
-  max-width: 400px;
-  margin: 0 auto;
-  text-align: left;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
+/* RESPONSIVE */
 @media (max-width: 768px) {
-  .card {
-    flex: 0 0 calc(50% - 1rem);
-    max-width: calc(50% - 1rem);
-  }
-}
-
-@media (max-width: 480px) {
   .card {
     flex: 0 0 100%;
     max-width: 100%;
+  }
+  .appointment-carousel {
+    padding: 1.5rem 1rem;
   }
 }
