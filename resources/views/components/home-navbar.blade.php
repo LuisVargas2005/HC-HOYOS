@@ -54,11 +54,13 @@
             <!-- Navegación principal -->
             <nav class="hidden md:flex items-center space-x-8 text-lg">
                 <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600 font-medium">Inicio</a>
-                <a href="{{ route('products.index') }}" class="text-gray-700 hover:text-blue-600 font-medium">Catalogo</a>
+                <a href="{{ route('products.index') }}" class="text-gray-700 hover:text-blue-600 font-medium">Productos</a>
                 <a href="{{ route('contact') }}" class="text-gray-700 hover:text-blue-600 font-medium">Contactanos</a>
-                <div class="relative group">
-                    <button class="text-gray-700 hover:text-blue-600 font-medium">Servicios</button>
-                    <div class="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                <div class="relative group" id="dropdown-container">
+                    <button id="dropdown-button" class="text-gray-700 hover:text-blue-600 font-medium focus:outline-none">
+                        Servicios
+                    </button>
+                    <div id="dropdown-menu" class="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10">
                         <a href="{{ url('/agendar') }}" class="block px-4 py-2 text-gray-700 hover:text-blue-600 font-medium">Agendar</a>
                         <a href="{{ route('products.index') }}" class="block px-4 py-2 text-gray-700 hover:text-blue-600 font-medium">Catálogo</a>
                         <a href="{{ route('contact') }}" class="block px-4 py-2 text-gray-700 hover:text-blue-600 font-medium">Soporte</a>
@@ -115,14 +117,32 @@
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+document.addEventListener('DOMContentLoaded', () => {
+    const button = document.getElementById('dropdown-button');
+    const menu = document.getElementById('dropdown-menu');
+    const container = document.getElementById('dropdown-container');
 
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
+    let isOpen = false;
+
+    button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        isOpen = !isOpen;
+        if (isOpen) {
+            menu.classList.remove('opacity-0', 'invisible');
+            menu.classList.add('opacity-100', 'visible');
+        } else {
+            menu.classList.remove('opacity-100', 'visible');
+            menu.classList.add('opacity-0', 'invisible');
         }
     });
+
+    // Cierra el menú si haces clic fuera
+    document.addEventListener('click', (e) => {
+        if (!container.contains(e.target)) {
+            isOpen = false;
+            menu.classList.remove('opacity-100', 'visible');
+            menu.classList.add('opacity-0', 'invisible');
+        }
+    });
+});
 </script>

@@ -96,6 +96,11 @@ class CheckoutController extends Controller
         $shippingCost = 0;
         if ($this->hasPhysicalProducts($cart)) {
             $shippingMethod = ShippingMethod::find($request->shipping_method_id);
+
+            if (!$shippingMethod) {
+                return redirect()->back()->with('error', 'El método de envío seleccionado no es válido.');
+            }
+
             $shippingCost = $request->has('dropship') ?
                 $this->shippingService->calculateDropShippingCost($shippingMethod, $cart, $request->shipping_address) :
                 $shippingMethod->base_rate;
