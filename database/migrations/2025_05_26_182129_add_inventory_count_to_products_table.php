@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-        $table->integer('inventory_count')->default(0)->after('price');
-    });
+        if (!Schema::hasColumn('products', 'inventory_count')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->integer('inventory_count')->default(0)->after('price');
+            });
+        }
     }
 
     /**
@@ -21,9 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-        $table->dropColumn('inventory_count');
-    });
-
+        if (Schema::hasColumn('products', 'inventory_count')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->dropColumn('inventory_count');
+            });
+        }
     }
 };

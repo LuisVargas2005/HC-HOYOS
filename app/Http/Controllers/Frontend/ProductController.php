@@ -184,4 +184,26 @@ public function index(Request $request)
     //     Session::forget('compare_list');
     //     return redirect()->route('products.list')->with('success', 'Comparison list cleared.');
     // }
+    public function store(Request $request)
+{
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'short_description' => 'nullable|string',
+        'long_description' => 'nullable|string',
+        'price' => 'required|numeric',
+        'sku' => 'required|string|unique:products,sku',
+        'inventory_count' => 'required|integer|min:0',
+        'featured_image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+        'category_id' => 'required|exists:categories,id',
+    ]);
+
+    if ($request->hasFile('featured_image')) {
+        $imagePath = $request->file('featured_image')->store('products', 'public');
+        $validatedData['featured_image'] = $imagePath;
+    }
+
+    $product = Product::create($validatedData);
+
+    return redirect()->back()->with('success', 'Producto creado correctamente.');
+}
 }

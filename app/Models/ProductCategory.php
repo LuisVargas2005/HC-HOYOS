@@ -16,12 +16,33 @@ class ProductCategory extends Model
 
     protected $fillable = [
         'name',
+        'slug', // ✅ importante agregar
         'description',
         'parent_category_id',
         'meta_title',
         'meta_description',
         'meta_keywords',
     ];
+
+    /**
+     * Genera automáticamente el slug al crear una categoría.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($category) {
+            if (empty($category->slug)) {
+                $category->slug = Str::slug($category->name);
+            }
+        });
+
+        static::updating(function ($category) {
+            if ($category->isDirty('name') && empty($category->slug)) {
+                $category->slug = Str::slug($category->name);
+            }
+        });
+    }
 
     public function products()
     {
@@ -33,8 +54,5 @@ class ProductCategory extends Model
         return $this->belongsTo(static::class, 'parent_category_id');
     }
 
-    public function getSlugAttribute()
-    {
-        return Str::slug($this->name);
-    }
+    // Eliminamos getSlugAttribute porque ahora se guarda en DB directamente
 }

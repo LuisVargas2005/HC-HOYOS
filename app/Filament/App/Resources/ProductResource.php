@@ -55,27 +55,31 @@ class ProductResource extends Resource
                     ]),
 
                 Forms\Components\FileUpload::make('featured_image')
-                    ->disk('public')
-                    ->directory('products')
+                    ->label('Imagen principal')
                     ->image()
-                    ->visibility('public')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/jpg'])
+                    ->maxSize(2048)
+                    ->directory('products')
+                    ->disk('public')
                     ->preserveFilenames()
-                    ->label('Imagen principal'),
-
-                Repeater::make('images')
-                    ->relationship()
-                    ->schema([
-                        Forms\Components\FileUpload::make('filename')
-                            ->disk('public')
-                            ->directory('products')
-                            ->image()
-                            ->visibility('public')
-                            ->preserveFilenames()
-                    ]),
+                    ->required() // ← Agrega esto para asegurarte que no se envíe vacío
+                    ->visibility('public'),
+                    Repeater::make('images')
+                        ->relationship()
+                        ->schema([
+                            Forms\Components\FileUpload::make('image')
+                                ->disk('public')
+                                ->directory('products')
+                                ->image()
+                                ->visibility('public')
+                                ->preserveFilenames()
+                                ->required() // <- Este es crucial para evitar valores null
+                        ]),
 
                 TextInput::make('price')
                     ->numeric()
                     ->required()
+                    ->minValue(0)
                     ->prefix('$'),
 
                 TextInput::make('sku')
