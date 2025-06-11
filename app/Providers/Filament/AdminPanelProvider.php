@@ -23,10 +23,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Laravel\Fortify\Fortify;
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Jetstream\Features;
-use Laravel\Jetstream\Jetstream;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -34,8 +31,8 @@ class AdminPanelProvider extends PanelProvider
     {
         $panel
             ->default()
-            ->id('admin') // Este ID afecta el nombre de las rutas
-            ->path('admin') // Este es el prefijo de la URL
+            ->id('admin') // ID del panel
+            ->path('admin') // Prefijo de URL para el panel
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
@@ -48,11 +45,9 @@ class AdminPanelProvider extends PanelProvider
                         ? url(EditProfile::getUrl())
                         : url($panel->getPath())),
             ])
-            // Elimina una de las llamadas duplicadas a discoverResources
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets/Home'), for: 'App\\Filament\\Admin\\Widgets\\Home')
-            // Elimina el registro manual redundante de OrderResource
             ->resources([
                 \App\Filament\Admin\Resources\OrderResource::class,
             ])
@@ -82,42 +77,29 @@ class AdminPanelProvider extends PanelProvider
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ]);
 
-        // if (Features::hasApiFeatures()) {
-        //     $panel->userMenuItems([
-        //         MenuItem::make()
-        //             ->label('API Tokens')
-        //             ->icon('heroicon-o-key')
-        //             ->url(fn () => $this->shouldRegisterMenuItem()
-        //                 ? url(Pages\ApiTokenManagerPage::getUrl())
-        //                 : url($panel->getPath())),
-        //     ]);
-        // }
-
-        if (Features::hasTeamFeatures()) {
-            // $panel
-            //     ->tenant(Team::class, ownershipRelationship: 'team')
-            //     ->tenantRegistration(Pages\CreateTeam::class)
-            //     ->tenantProfile(Pages\EditTeam::class)
-            //     ->userMenuItems([
-            //         MenuItem::make()
-            //             ->label('Team Settings')
-            //             ->icon('heroicon-o-cog-6-tooth')
-            //             ->url(fn () => $this->shouldRegisterMenuItem()
-            //                 ? url(Pages\EditTeam::getUrl())
-            //                 : url($panel->getPath())),
-            //     ]);
-        }
-
         return $panel;
     }
 
-    public function boot()
+    public function boot(): void
     {
-       
+        Filament::serving(function () {
+            // Verificar si hay un usuario autenticado
+            if (!auth()->check()) {
+                return redirect('/')->send(); // Redirige si no hay sesión
+            }
+
+            // Lista de correos autorizados
+            $allowedEmails = ['admin@example.com', 'staff@example.com'];
+
+            // Verificar si el correo del usuario está autorizado
+            if (!in_array(auth()->user()->email, $allowedEmails)) {
+                return redirect('/')->send(); // Redirige si no está permitido
+            }
+        });
     }
 
     public function shouldRegisterMenuItem(): bool
     {
-        return true; //auth()->user()?->hasVerifiedEmail() && Filament::hasTenancy() && Filament::getTenant();
+        return true; // Mostrar menú de perfil siempre que el usuario esté autenticado
     }
 }

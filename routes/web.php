@@ -41,8 +41,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Product routes
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 
-Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-
 Route::middleware('auth')->group(function () {
     Route::post('/wishlist/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
     Route::delete('/wishlist/remove/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
