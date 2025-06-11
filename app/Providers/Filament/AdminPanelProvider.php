@@ -34,11 +34,8 @@ class AdminPanelProvider extends PanelProvider
     {
         $panel
             ->default()
-            ->id('admin')
-            ->path('admin')
-            // ->login([AuthenticatedSessionController::class, 'create'])
-            // ->passwordReset()
-            // ->emailVerification()
+            ->id('admin') // Este ID afecta el nombre de las rutas
+            ->path('admin') // Este es el prefijo de la URL
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
@@ -51,16 +48,20 @@ class AdminPanelProvider extends PanelProvider
                         ? url(EditProfile::getUrl())
                         : url($panel->getPath())),
             ])
+            // Elimina una de las llamadas duplicadas a discoverResources
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets/Home'), for: 'App\\Filament\\Admin\\Widgets\\Home')
+            // Elimina el registro manual redundante de OrderResource
+            ->resources([
+                \App\Filament\Admin\Resources\OrderResource::class,
+            ])
             ->pages([
                 FilamentPage\Dashboard::class,
                 Pages\EditProfile::class,
-                // Pages\ApiTokenManagerPage::class,
-            ])->widgets([
+            ])
+            ->widgets([
                 Widgets\AccountWidget::class,
-                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

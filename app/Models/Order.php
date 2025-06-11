@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\IsTenantModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Order extends Model
 {
@@ -24,6 +25,13 @@ class Order extends Model
         'shipping_method_id',
         'payment_method',
         'status',
+    ];
+
+    /**
+     * Casts para convertir order_date automáticamente en objeto Carbon.
+     */
+    protected $casts = [
+        'order_date' => 'datetime',
     ];
 
     public function customer()

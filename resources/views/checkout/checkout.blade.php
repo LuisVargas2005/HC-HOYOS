@@ -257,7 +257,7 @@
         // Para PayPal, Nequi y Efectivo, el formulario se envía normalmente
     });
 
-    // Configuración de PayPal
+   // Configuración de PayPal actualizada
     if (document.getElementById('paypal-button-container')) {
         paypal.Buttons({
             style: {
@@ -270,7 +270,8 @@
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: document.getElementById('total-amount').textContent.replace('$', '')
+                            value: '{{ number_format($total, 2, '.', '') }}',
+                            currency_code: 'USD'
                         }
                     }]
                 });
@@ -278,8 +279,14 @@
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
                     document.getElementById('paypal_payment_id').value = details.id;
-                    form.submit();
+                    // Mostrar mensaje de éxito antes de enviar el formulario
+                    alert('Pago completado con éxito!');
+                    document.getElementById('checkout-form').submit();
                 });
+            },
+            onError: function(err) {
+                console.error('PayPal error:', err);
+                alert('Ocurrió un error con el pago de PayPal. Por favor intenta de nuevo.');
             }
         }).render('#paypal-button-container');
     }

@@ -9,9 +9,10 @@ use Laravel\Cashier\Exceptions\IncompletePayment;
 use Stripe\Stripe;
 use Stripe\Plan;
 
+
 class SubscriptionController extends Controller
 {
-   
+
     private $subscriptionService;
 
     public function __construct(SubscriptionService $subscriptionService)
