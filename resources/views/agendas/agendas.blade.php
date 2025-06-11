@@ -17,7 +17,7 @@
         Ofrecemos un servicio integral de reparación de dispositivos. En un solo lugar, con la experiencia del mejor técnico en múltiples campos.
     </p>
 
-    <div class="step-indicator">1 de 7</div>
+    <div class="step-indicator"></div>
 
     <div class="steps-wrapper">
 
@@ -43,8 +43,8 @@
             </div>
 
             <div class="carousel-nav">
-                <button id="prevBtn">‹</button>
-                <button id="nextBtn">›</button>
+                <button id="prevBtn"></button>
+                <button id="nextBtn"></button>
             </div>
         </section>
 
