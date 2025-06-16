@@ -13,7 +13,7 @@ class CartController extends Controller
         $quantity = $request->input('quantity', 1);
         
         if ($product->inventory_count < $quantity) {
-            return redirect()->back()->with('error', 'Not enough inventory available.');
+            return redirect()->back()->with('error', 'No hay suficiente inventario disponible.');
         }
 
         $cart = Session::get('cart', []);
@@ -31,7 +31,7 @@ class CartController extends Controller
 
         Session::put('cart', $cart);
         
-        return redirect()->back()->with('success', 'Product added to cart successfully!');
+        return redirect()->back()->with('success', '¡Producto añadido al carrito exitosamente!');
     }
 
     public function index()

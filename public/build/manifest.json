@@ -1,12 +1,23 @@
 {
+  "resources/css/agendas/style.css": {
+    "file": "assets/style-DVVHS9iI.css",
+    "src": "resources/css/agendas/style.css",
+    "isEntry": true
+  },
   "resources/css/app.css": {
-    "file": "assets/app-DxXeHq_h.css",
+    "file": "assets/app-ofFQECVw.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/css/filament/admin/theme.css": {
-    "file": "assets/theme-ClyJGHxR.css",
+    "file": "assets/theme-GFYz92dy.css",
     "src": "resources/css/filament/admin/theme.css",
+    "isEntry": true
+  },
+  "resources/js/agendas/script.js": {
+    "file": "assets/script-Dr0A2pQa.js",
+    "name": "script",
+    "src": "resources/js/agendas/script.js",
     "isEntry": true
   },
   "resources/js/app.js": {

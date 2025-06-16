@@ -35,14 +35,14 @@ class ShoppingCart extends Component
 
         // Verify inventory for physical products
         if (!$isDownloadable && $product->inventory_count < $quantity) {
-            session()->flash('error', 'Not enough inventory available.');
+            session()->flash('error', 'No hay suficiente inventario disponible.');
             return;
         }
 
         if (isset($this->items[$productId])) {
             $newQuantity = $this->items[$productId]['quantity'] + $quantity;
             if (!$isDownloadable && $newQuantity > $product->inventory_count) {
-                session()->flash('error', 'Cannot add more items than available in stock.');
+                session()->flash('error', 'No se pueden añadir más artículos de los disponibles en stock.');
                 return;
             }
             $this->items[$productId]['quantity'] = $newQuantity;
@@ -59,7 +59,7 @@ class ShoppingCart extends Component
         }
 
         $this->persistCart();
-        session()->flash('success', 'Product added to cart successfully!');
+        session()->flash('success', '¡Producto añadido al carrito exitosamente!');
     }
 
     public function increment($productId)
@@ -70,7 +70,7 @@ class ShoppingCart extends Component
         $isDownloadable = $this->items[$productId]['is_downloadable'];
         
         if (!$isDownloadable && $product && $this->items[$productId]['quantity'] >= $product->inventory_count) {
-            session()->flash('error', 'Cannot add more items than available in stock.');
+            session()->flash('error', 'No se pueden añadir más artículos de los disponibles en stock.');
             return;
         }
 
@@ -93,7 +93,7 @@ class ShoppingCart extends Component
         $quantity = (int)$quantity;
         
         if (!isset($this->items[$productId]) || $quantity < 1) {
-            session()->flash('error', 'Invalid quantity');
+            session()->flash('error', 'Cantidad inválida.');
             return;
         }
 
@@ -101,7 +101,7 @@ class ShoppingCart extends Component
         $isDownloadable = $this->items[$productId]['is_downloadable'];
         
         if (!$isDownloadable && $product && $quantity > $product->inventory_count) {
-            session()->flash('error', 'Not enough inventory available.');
+            session()->flash('error', 'No hay suficiente inventario disponible.');
             return;
         }
 
@@ -114,7 +114,7 @@ class ShoppingCart extends Component
         if (isset($this->items[$productId])) {
             unset($this->items[$productId]);
             $this->persistCart();
-            session()->flash('success', 'Product removed from cart');
+            session()->flash('success', 'Producto eliminado del carrito.');
         }
     }
 
@@ -122,7 +122,7 @@ class ShoppingCart extends Component
     {
         $this->items = [];
         Session::forget('cart');
-        session()->flash('success', 'Cart cleared successfully');
+        session()->flash('success', 'Carrito vaciado exitosamente.');
     }
 
     protected function persistCart()

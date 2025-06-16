@@ -5,8 +5,14 @@ import { viteStaticCopy } from "vite-plugin-static-copy";
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js',
-		    'resources/css/filament/admin/theme.css'],
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',
+                'resources/css/filament/admin/theme.css',
+                // ¡Añade estas dos líneas para tus archivos de agenda!
+                'resources/css/agendas/style.css',
+                'resources/js/agendas/script.js',
+            ],
             refresh: [
                 ...refreshPaths,
                 'app/Filament/**',
